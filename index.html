@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Forever Valentine 💘</title>
+  <style>
+    :root{
+      --bg: #ffffff;
+      --text: #121212;
+      --muted: #6b6b6b;
+      --border: rgba(0,0,0,.10);
+      --shadow: 0 18px 55px rgba(0,0,0,.08);
+    }
+
+    * { box-sizing: border-box; }
+    body{
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+
+    .card{
+      width: min(720px, 92vw);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: clamp(22px, 4vw, 36px);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    h1{
+      margin: 0 0 10px;
+      font-size: clamp(28px, 5vw, 44px);
+      line-height: 1.12;
+      letter-spacing: -0.2px;
+    }
+
+    .sub{
+      margin: 0 0 22px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .buttons{
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    button{
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: #fff;
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    button:hover{ transform: translateY(-1px); }
+    button:active{ transform: translateY(1px); }
+
+    #yesBtn{
+      border-color: rgba(0,0,0,.18);
+      box-shadow: 0 14px 26px rgba(0,0,0,.10);
+    }
+
+    #noBtn{
+      color: var(--muted);
+    }
+
+    /* Minimal modal */
+    .modalBackdrop{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.42);
+      display: none;
+      place-items: center;
+      padding: 18px;
+      z-index: 10;
+    }
+    .modal{
+      width: min(520px, 96vw);
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px 20px;
+      box-shadow: 0 28px 80px rgba(0,0,0,.18);
+      text-align: center;
+    }
+    .modal h2{
+      margin: 6px 0 10px;
+      font-size: 26px;
+      letter-spacing: -0.2px;
+    }
+    .modal p{
+      margin: 0 0 16px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="card">
+    <h1>Will you be my forever Valentine, <span id="name">Ushasi</span>? 💘</h1>
+    <p class="sub">Just one click away.</p>
+
+    <div class="buttons">
+      <button id="yesBtn">Yes 💞</button>
+      <button id="noBtn">No 🙈</button>
+    </div>
+  </main>
+
+  <!-- Audio (place ajab-si.mp3 in the SAME folder as this HTML file) -->
+  <audio id="song" preload="auto">
+    <source src="ajab-si.mp3" type="audio/mpeg" />
+    Your browser does not support audio.
+  </audio>
+
+  <div class="modalBackdrop" id="backdrop" role="dialog" aria-modal="true">
+    <div class="modal">
+      <div style="font-size:42px">🤍</div>
+      <h2>YAY!</h2>
+      <p>Forever Valentine it is. 💘</p>
+      <button id="closeBtn">Close</button>
+    </div>
+  </div>
+
+  <script>
+    // Personalization
+    const HER_NAME = "Ushasi";
+    document.getElementById("name").textContent = HER_NAME;
+
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const backdrop = document.getElementById("backdrop");
+    const closeBtn = document.getElementById("closeBtn");
+    const song = document.getElementById("song");
+
+    let noConverted = false;
+
+    async function handleYes() {
+      // Try to play music (click-to-play should be allowed)
+      try {
+        song.currentTime = 0;
+        await song.play();
+      } catch (e) {
+        // If blocked, we still show the modal. (Most browsers allow on click.)
+        console.log("Audio play blocked:", e);
+      }
+
+      backdrop.style.display = "grid";
+    }
+
+    yesBtn.addEventListener("click", handleYes);
+
+    // "No" turns into "Okay fine yes" and then acts like Yes
+    noBtn.addEventListener("click", () => {
+      if (!noConverted) {
+        noConverted = true;
+        noBtn.textContent = "Okay fine yes 💞";
+        noBtn.style.color = "#121212";
+        noBtn.style.boxShadow = "0 14px 26px rgba(0,0,0,.10)";
+        return;
+      }
+      handleYes();
+    });
+
+    closeBtn.addEventListener("click", () => {
+      backdrop.style.display = "none";
+      // optional: keep song playing, or pause it:
+      // song.pause();
+    });
+
+    backdrop.addEventListener("click", (e) => {
+      if (e.target === backdrop) {
+        backdrop.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
