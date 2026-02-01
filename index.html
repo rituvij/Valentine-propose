@@ -6,41 +6,129 @@
   <title>Forever Valentine 💘</title>
   <style>
     :root{
-      --bg:#ffffff;
+      --bg1:#ffe1ec;
+      --bg2:#ffd1e6;
+      --bg3:#fff0f6;
+
+      --card:#ffffffee;
       --text:#111;
       --muted:#666;
-      --border:rgba(0,0,0,.12);
-      --shadow:0 18px 55px rgba(0,0,0,.08);
+      --border:rgba(0,0,0,.10);
+      --shadow:0 18px 55px rgba(0,0,0,.10);
 
       --yesHover:#ff2d6d; /* pinkish-red */
       --noHover:#ff8a00;  /* orange */
     }
 
     *{box-sizing:border-box}
+
     body{
-      margin:0; min-height:100vh;
-      display:grid; place-items:center;
-      background:var(--bg); color:var(--text);
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--text);
       overflow:hidden;
+
+      background:
+        radial-gradient(900px 700px at 15% 15%, var(--bg3), transparent 65%),
+        radial-gradient(900px 700px at 85% 80%, var(--bg2), transparent 60%),
+        linear-gradient(135deg, var(--bg1), #fff);
     }
-    .card{
-      width:min(720px,92vw);
-      border:1px solid var(--border);
-      border-radius:22px;
-      padding:clamp(22px,4vw,36px);
-      box-shadow:var(--shadow);
-      text-align:center;
-      background:#fff;
+
+    /* soft floating hearts in page background */
+    .bg-hearts{
+      position:fixed;
+      inset:-40px;
+      pointer-events:none;
+      opacity:.22;
+      filter: blur(.2px);
+      z-index:0;
+    }
+    .bg-hearts span{
+      position:absolute;
+      font-size: clamp(44px, 7vw, 92px);
+      transform: rotate(-12deg);
+      animation: drift 10s ease-in-out infinite;
+      user-select:none;
+    }
+    .bg-hearts span:nth-child(1){ left:6%;  top:10%; animation-duration: 12s; }
+    .bg-hearts span:nth-child(2){ left:72%; top:12%; animation-duration: 14s; transform: rotate(18deg); }
+    .bg-hearts span:nth-child(3){ left:12%; top:68%; animation-duration: 13s; transform: rotate(10deg); }
+    .bg-hearts span:nth-child(4){ left:78%; top:64%; animation-duration: 11s; transform: rotate(-6deg); }
+    .bg-hearts span:nth-child(5){ left:42%; top:34%; animation-duration: 15s; transform: rotate(8deg); opacity:.16; }
+
+    @keyframes drift{
+      0%,100% { transform: translateY(0) rotate(var(--r, -12deg)); }
+      50%     { transform: translateY(-14px) rotate(var(--r, -12deg)); }
+    }
+
+    .wrap{
       position:relative;
-      z-index:2;
+      z-index:1;
+      width: min(760px, 92vw);
     }
+
+    .card{
+      position:relative;
+      background: var(--card);
+      border:1px solid rgba(255,45,109,.18);
+      border-radius:22px;
+      padding: clamp(22px, 4vw, 36px);
+      box-shadow: var(--shadow);
+      text-align:center;
+      overflow:hidden;
+      backdrop-filter: blur(10px);
+    }
+
+    /* BIG pink hearts INSIDE the card background */
+    .card::before, .card::after{
+      content:"";
+      position:absolute;
+      inset:-40px;
+      pointer-events:none;
+      z-index:0;
+      opacity:.18;
+      background-repeat:no-repeat;
+      background-size: 260px 260px, 340px 340px, 200px 200px;
+      background-position: 8% 20%, 86% 18%, 70% 82%;
+      filter: blur(.2px);
+    }
+
+    /* Use inline SVG hearts as a background image (big, pink) */
+    .card::before{
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 24 24'%3E%3Cpath fill='%23ff2d6d' d='M12 21s-7.2-4.5-9.6-8.7C.3 8.9 2.1 5.5 5.7 5.2c1.7-.1 3.3.8 4.3 2c1-1.2 2.6-2.1 4.3-2c3.6.3 5.4 3.7 3.3 7.1C19.2 16.5 12 21 12 21z'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='340' height='340' viewBox='0 0 24 24'%3E%3Cpath fill='%23ff66a3' d='M12 21s-7.2-4.5-9.6-8.7C.3 8.9 2.1 5.5 5.7 5.2c1.7-.1 3.3.8 4.3 2c1-1.2 2.6-2.1 4.3-2c3.6.3 5.4 3.7 3.3 7.1C19.2 16.5 12 21 12 21z'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 24 24'%3E%3Cpath fill='%23ff2d6d' d='M12 21s-7.2-4.5-9.6-8.7C.3 8.9 2.1 5.5 5.7 5.2c1.7-.1 3.3.8 4.3 2c1-1.2 2.6-2.1 4.3-2c3.6.3 5.4 3.7 3.3 7.1C19.2 16.5 12 21 12 21z'/%3E%3C/svg%3E");
+    }
+
+    /* a second layer for depth */
+    .card::after{
+      opacity:.12;
+      background-size: 220px 220px, 300px 300px, 180px 180px;
+      background-position: 18% 78%, 92% 72%, 50% 8%;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 24 24'%3E%3Cpath fill='%23ff8fb2' d='M12 21s-7.2-4.5-9.6-8.7C.3 8.9 2.1 5.5 5.7 5.2c1.7-.1 3.3.8 4.3 2c1-1.2 2.6-2.1 4.3-2c3.6.3 5.4 3.7 3.3 7.1C19.2 16.5 12 21 12 21z'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 24 24'%3E%3Cpath fill='%23ff2d6d' d='M12 21s-7.2-4.5-9.6-8.7C.3 8.9 2.1 5.5 5.7 5.2c1.7-.1 3.3.8 4.3 2c1-1.2 2.6-2.1 4.3-2c3.6.3 5.4 3.7 3.3 7.1C19.2 16.5 12 21 12 21z'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 24 24'%3E%3Cpath fill='%23ff66a3' d='M12 21s-7.2-4.5-9.6-8.7C.3 8.9 2.1 5.5 5.7 5.2c1.7-.1 3.3.8 4.3 2c1-1.2 2.6-2.1 4.3-2c3.6.3 5.4 3.7 3.3 7.1C19.2 16.5 12 21 12 21z'/%3E%3C/svg%3E");
+    }
+
+    /* Content sits above heart layers */
+    .content{
+      position:relative;
+      z-index:1;
+    }
+
     h1{
       margin:0 0 10px;
-      font-size:clamp(28px,5vw,44px);
+      font-size: clamp(28px, 5vw, 44px);
       line-height:1.12;
       letter-spacing:-0.2px;
+      text-shadow: 0 2px 0 rgba(255,255,255,.35);
     }
+
     .sub{
       margin:0 0 22px;
       color:var(--muted);
@@ -53,14 +141,13 @@
       gap:12px;
       flex-wrap:wrap;
       align-items:center;
-      position:relative;
     }
 
     button{
       border-radius:999px;
       padding:12px 18px;
       font-size:16px;
-      font-weight:700;
+      font-weight:800;
       cursor:pointer;
       border:1px solid var(--border);
       background:#fff;
@@ -68,19 +155,19 @@
       user-select:none;
       line-height:1;
       white-space:nowrap;
-      position:relative; /* for emoji bubble */
+      position:relative;
       outline:none;
     }
-    button:hover{transform:translateY(-1px)}
-    button:active{transform:translateY(1px)}
-    #yesBtn{
-      box-shadow:0 14px 26px rgba(0,0,0,.10);
-    }
-    #noBtn{
-      color:var(--muted);
-    }
+    button:hover{ transform: translateY(-1px); }
+    button:active{ transform: translateY(1px); }
 
-    /* Hover color effects */
+    #yesBtn{
+      box-shadow:0 14px 26px rgba(255,45,109,.12);
+      border-color: rgba(255,45,109,.25);
+    }
+    #noBtn{ color:var(--muted); }
+
+    /* Hover effects + emoji pop */
     #yesBtn:hover{
       background:var(--yesHover);
       border-color:var(--yesHover);
@@ -94,7 +181,6 @@
       box-shadow:0 18px 34px rgba(255,138,0,.24);
     }
 
-    /* Emoji popups (pure CSS) */
     .emoji{
       position:absolute;
       left:50%;
@@ -122,9 +208,9 @@
       z-index:10;
     }
     .modal{
-      width:min(520px,96vw);
+      width:min(540px,96vw);
       background:#fff;
-      border:1px solid var(--border);
+      border:1px solid rgba(255,45,109,.20);
       border-radius:18px;
       padding:22px 20px;
       box-shadow:0 28px 80px rgba(0,0,0,.18);
@@ -141,7 +227,6 @@
       line-height:1.5;
     }
 
-    /* Confetti */
     canvas#confetti{
       position:fixed; inset:0;
       pointer-events:none;
@@ -152,36 +237,60 @@
 </head>
 
 <body>
+  <!-- Page background hearts -->
+  <div class="bg-hearts" aria-hidden="true">
+    <span style="--r:-10deg;">💗</span>
+    <span style="--r:16deg;">💖</span>
+    <span style="--r:8deg;">💓</span>
+    <span style="--r:-6deg;">💘</span>
+    <span style="--r:10deg;">💕</span>
+  </div>
+
   <canvas id="confetti"></canvas>
 
-  <main class="card">
-    <h1>Will you be my forever Valentine, <span id="name">Babyy</span>? 💘</h1>
-    <p class="sub">Better be Yes!  .</p>
+  <div class="wrap">
+    <main class="card">
+      <div class="content">
+        <h1>Will you be my forever Valentine, <span id="name">Babyy</span>? 💘</h1>
+        <p class="sub">Just one click away.</p>
 
-    <div class="buttons">
-      <button id="yesBtn">
-        Yes!
-        <span class="emoji" aria-hidden="true">🥰</span>
-      </button>
+        <div class="buttons">
+          <button id="yesBtn">
+            Yes 💞
+            <span class="emoji" aria-hidden="true">💖</span>
+          </button>
 
-      <button id="noBtn">
-        No!
-        <span class="emoji" aria-hidden="true">🤬</span>
-      </button>
-    </div>
-  </main>
+          <button id="noBtn">
+            No 🙈
+            <span class="emoji" aria-hidden="true">😠</span>
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
 
   <!-- Put ajab-si.mp3 in the SAME folder as this HTML (or repo root for GitHub Pages) -->
   <audio id="song" preload="auto">
     <source src="ajab-si.mp3" type="audio/mpeg" />
   </audio>
 
-  <div class="modalBackdrop" id="backdrop" role="dialog" aria-modal="true">
+  <!-- YES popup -->
+  <div class="modalBackdrop" id="yesBackdrop" role="dialog" aria-modal="true">
     <div class="modal">
       <div style="font-size:40px">🤍</div>
       <h2>Yay!</h2>
-      <p>Forever Valentine it is. 💘</p>
-      <button id="closeBtn">Close</button>
+      <p>I knew it, you would say yes !! </p>
+      <button id="yesCloseBtn">Close</button>
+    </div>
+  </div>
+
+  <!-- TRY AGAIN popup -->
+  <div class="modalBackdrop" id="tryBackdrop" role="dialog" aria-modal="true">
+    <div class="modal">
+      <div style="font-size:40px">😤</div>
+      <h2>Try again</h2>
+      <p>Nope. That “No” is not allowed here 😌</p>
+      <button id="tryBtn">Try again</button>
     </div>
   </div>
 
@@ -192,8 +301,13 @@
 
     const yesBtn = document.getElementById("yesBtn");
     const noBtn = document.getElementById("noBtn");
-    const backdrop = document.getElementById("backdrop");
-    const closeBtn = document.getElementById("closeBtn");
+
+    const yesBackdrop = document.getElementById("yesBackdrop");
+    const yesCloseBtn = document.getElementById("yesCloseBtn");
+
+    const tryBackdrop = document.getElementById("tryBackdrop");
+    const tryBtn = document.getElementById("tryBtn");
+
     const song = document.getElementById("song");
 
     /* ===== CONFETTI ===== */
@@ -227,7 +341,7 @@
     function startConfetti() {
       canvas.style.display = "block";
       resize();
-      pieces = Array.from({ length: 150 }, makePiece);
+      pieces = Array.from({ length: 160 }, makePiece);
       tick();
     }
 
@@ -266,12 +380,12 @@
 
     /* ===== YES ACTION ===== */
     async function handleYes() {
-      backdrop.style.display = "grid";
+      yesBackdrop.style.display = "grid";
       startConfetti();
 
       try {
         song.currentTime = 0;
-        await song.play(); // should work because it's triggered by a click
+        await song.play(); // triggered by click
       } catch (e) {
         console.log("Audio play issue:", e);
       }
@@ -279,52 +393,77 @@
 
     yesBtn.addEventListener("click", handleYes);
 
-    function closeModal() {
-      backdrop.style.display = "none";
+    function closeYesModal() {
+      yesBackdrop.style.display = "none";
       stopConfetti();
-      // Optional: pause music when closing
+      // Optional: keep music playing, or pause:
       // song.pause();
     }
 
-    closeBtn.addEventListener("click", closeModal);
-    backdrop.addEventListener("click", (e) => {
-      if (e.target === backdrop) closeModal();
+    yesCloseBtn.addEventListener("click", closeYesModal);
+    yesBackdrop.addEventListener("click", (e) => {
+      if (e.target === yesBackdrop) closeYesModal();
     });
 
-    /* ===== NO CLICK: YES grows, NO shrinks by 5px each click (NO auto-YES) ===== */
+    /* ===== NO CLICK: YES grows, NO shrinks by 5px. When NO reaches min => Try Again popup + reload ===== */
     let yesSize = 16; // px
     let noSize = 16;  // px
+
     const STEP = 5;
-    const MIN_NO_SIZE = 6;    // allow it to get tiny but still visible
-    const MAX_YES_SIZE = 48;  // cap so layout stays nice
+    const MIN_NO_SIZE = 6;   // threshold
+    const MAX_YES_SIZE = 52; // cap
 
     const basePadY = 12;
     const basePadX = 18;
+
+    function applyButtonSizes() {
+      // YES
+      yesBtn.style.fontSize = yesSize + "px";
+      const yesDelta = yesSize - 16;
+      yesBtn.style.padding =
+        (basePadY + yesDelta * 0.35) + "px " +
+        (basePadX + yesDelta * 0.7) + "px";
+
+      // NO
+      noBtn.style.fontSize = noSize + "px";
+      const noDelta = 16 - noSize;
+      noBtn.style.padding =
+        Math.max(6, basePadY - noDelta * 0.6) + "px " +
+        Math.max(10, basePadX - noDelta * 0.8) + "px";
+    }
+
+    applyButtonSizes();
 
     noBtn.addEventListener("click", () => {
       // Grow YES
       if (yesSize < MAX_YES_SIZE) {
         yesSize = Math.min(MAX_YES_SIZE, yesSize + STEP);
-        yesBtn.style.fontSize = yesSize + "px";
-
-        const delta = yesSize - 16;
-        yesBtn.style.padding =
-          (basePadY + delta * 0.35) + "px " +
-          (basePadX + delta * 0.7) + "px";
       }
 
       // Shrink NO
       if (noSize > MIN_NO_SIZE) {
         noSize = Math.max(MIN_NO_SIZE, noSize - STEP);
-        noBtn.style.fontSize = noSize + "px";
-
-        const delta = 16 - noSize;
-        noBtn.style.padding =
-          Math.max(6, basePadY - delta * 0.6) + "px " +
-          Math.max(10, basePadX - delta * 0.8) + "px";
       }
 
-      // No auto-trigger of YES anymore.
+      applyButtonSizes();
+
+      // When NO hits the threshold => show Try Again popup (no auto-YES)
+      if (noSize <= MIN_NO_SIZE) {
+        // prevent further clicking while popup is open
+        noBtn.disabled = true;
+        yesBtn.disabled = true;
+        tryBackdrop.style.display = "grid";
+      }
+    });
+
+    function reloadPage() {
+      // reload the page so everything resets
+      window.location.reload();
+    }
+
+    tryBtn.addEventListener("click", reloadPage);
+    tryBackdrop.addEventListener("click", (e) => {
+      if (e.target === tryBackdrop) reloadPage();
     });
   </script>
 </body>
