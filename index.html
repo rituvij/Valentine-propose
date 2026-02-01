@@ -6,129 +6,180 @@
   <title>Forever Valentine 💘</title>
   <style>
     :root{
-      --bg: #ffffff;
-      --text: #121212;
-      --muted: #6b6b6b;
-      --border: rgba(0,0,0,.10);
-      --shadow: 0 18px 55px rgba(0,0,0,.08);
+      --bg:#ffffff;
+      --text:#111;
+      --muted:#666;
+      --border:rgba(0,0,0,.12);
+      --shadow:0 18px 55px rgba(0,0,0,.08);
+
+      --yesHover:#ff2d6d; /* pinkish-red */
+      --noHover:#ff8a00;  /* orange */
     }
 
-    * { box-sizing: border-box; }
+    *{box-sizing:border-box}
     body{
-      margin: 0;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      background: var(--bg);
-      color: var(--text);
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      margin:0; min-height:100vh;
+      display:grid; place-items:center;
+      background:var(--bg); color:var(--text);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      overflow:hidden;
     }
-
     .card{
-      width: min(720px, 92vw);
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: clamp(22px, 4vw, 36px);
-      box-shadow: var(--shadow);
-      text-align: center;
+      width:min(720px,92vw);
+      border:1px solid var(--border);
+      border-radius:22px;
+      padding:clamp(22px,4vw,36px);
+      box-shadow:var(--shadow);
+      text-align:center;
+      background:#fff;
+      position:relative;
+      z-index:2;
     }
-
     h1{
-      margin: 0 0 10px;
-      font-size: clamp(28px, 5vw, 44px);
-      line-height: 1.12;
-      letter-spacing: -0.2px;
+      margin:0 0 10px;
+      font-size:clamp(28px,5vw,44px);
+      line-height:1.12;
+      letter-spacing:-0.2px;
     }
-
     .sub{
-      margin: 0 0 22px;
-      color: var(--muted);
-      font-size: 15px;
+      margin:0 0 22px;
+      color:var(--muted);
+      font-size:15px;
     }
 
     .buttons{
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 6px;
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      flex-wrap:wrap;
+      align-items:center;
+      position:relative;
     }
 
     button{
-      border-radius: 999px;
-      padding: 12px 18px;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      border: 1px solid var(--border);
-      background: #fff;
-      transition: transform .12s ease, box-shadow .12s ease;
+      border-radius:999px;
+      padding:12px 18px;
+      font-size:16px;
+      font-weight:700;
+      cursor:pointer;
+      border:1px solid var(--border);
+      background:#fff;
+      transition: transform .15s ease, box-shadow .15s ease, font-size .15s ease, padding .15s ease, background .15s ease, border-color .15s ease, color .15s ease;
+      user-select:none;
+      line-height:1;
+      white-space:nowrap;
+      position:relative; /* for emoji bubble */
+      outline:none;
     }
-    button:hover{ transform: translateY(-1px); }
-    button:active{ transform: translateY(1px); }
-
+    button:hover{transform:translateY(-1px)}
+    button:active{transform:translateY(1px)}
     #yesBtn{
-      border-color: rgba(0,0,0,.18);
-      box-shadow: 0 14px 26px rgba(0,0,0,.10);
+      box-shadow:0 14px 26px rgba(0,0,0,.10);
     }
-
     #noBtn{
-      color: var(--muted);
+      color:var(--muted);
     }
 
-    /* Minimal modal */
+    /* Hover color effects */
+    #yesBtn:hover{
+      background:var(--yesHover);
+      border-color:var(--yesHover);
+      color:#fff;
+      box-shadow:0 18px 34px rgba(255,45,109,.28);
+    }
+    #noBtn:hover{
+      background:var(--noHover);
+      border-color:var(--noHover);
+      color:#fff;
+      box-shadow:0 18px 34px rgba(255,138,0,.24);
+    }
+
+    /* Emoji popups (pure CSS) */
+    .emoji{
+      position:absolute;
+      left:50%;
+      top:-10px;
+      transform:translate(-50%, -100%) scale(.85);
+      opacity:0;
+      pointer-events:none;
+      font-size:22px;
+      filter: drop-shadow(0 10px 10px rgba(0,0,0,.12));
+      transition: opacity .12s ease, transform .12s ease;
+      will-change: transform, opacity;
+    }
+    button:hover .emoji{
+      opacity:1;
+      transform:translate(-50%, -130%) scale(1);
+    }
+
+    /* Popup */
     .modalBackdrop{
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.42);
-      display: none;
-      place-items: center;
-      padding: 18px;
-      z-index: 10;
+      position:fixed; inset:0;
+      background:rgba(0,0,0,.42);
+      display:none;
+      place-items:center;
+      padding:18px;
+      z-index:10;
     }
     .modal{
-      width: min(520px, 96vw);
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 22px 20px;
-      box-shadow: 0 28px 80px rgba(0,0,0,.18);
-      text-align: center;
+      width:min(520px,96vw);
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:22px 20px;
+      box-shadow:0 28px 80px rgba(0,0,0,.18);
+      text-align:center;
     }
     .modal h2{
-      margin: 6px 0 10px;
-      font-size: 26px;
-      letter-spacing: -0.2px;
+      margin:8px 0 10px;
+      font-size:26px;
+      letter-spacing:-0.2px;
     }
     .modal p{
-      margin: 0 0 16px;
-      color: var(--muted);
-      line-height: 1.5;
+      margin:0 0 16px;
+      color:var(--muted);
+      line-height:1.5;
+    }
+
+    /* Confetti */
+    canvas#confetti{
+      position:fixed; inset:0;
+      pointer-events:none;
+      display:none;
+      z-index:9;
     }
   </style>
 </head>
 
 <body>
+  <canvas id="confetti"></canvas>
+
   <main class="card">
-    <h1>Will you be my forever Valentine, <span id="name">Ushasi</span>? 💘</h1>
-    <p class="sub">Just one click away.</p>
+    <h1>Will you be my forever Valentine, <span id="name">Babyy</span>? 💘</h1>
+    <p class="sub">Better be Yes!  .</p>
 
     <div class="buttons">
-      <button id="yesBtn">Yes 💞</button>
-      <button id="noBtn">No 🙈</button>
+      <button id="yesBtn">
+        Yes!
+        <span class="emoji" aria-hidden="true">🥰</span>
+      </button>
+
+      <button id="noBtn">
+        No!
+        <span class="emoji" aria-hidden="true">🤬</span>
+      </button>
     </div>
   </main>
 
-  <!-- Audio (place ajab-si.mp3 in the SAME folder as this HTML file) -->
+  <!-- Put ajab-si.mp3 in the SAME folder as this HTML (or repo root for GitHub Pages) -->
   <audio id="song" preload="auto">
     <source src="ajab-si.mp3" type="audio/mpeg" />
-    Your browser does not support audio.
   </audio>
 
   <div class="modalBackdrop" id="backdrop" role="dialog" aria-modal="true">
     <div class="modal">
-      <div style="font-size:42px">🤍</div>
-      <h2>YAY!</h2>
+      <div style="font-size:40px">🤍</div>
+      <h2>Yay!</h2>
       <p>Forever Valentine it is. 💘</p>
       <button id="closeBtn">Close</button>
     </div>
@@ -145,45 +196,135 @@
     const closeBtn = document.getElementById("closeBtn");
     const song = document.getElementById("song");
 
-    let noConverted = false;
+    /* ===== CONFETTI ===== */
+    const canvas = document.getElementById("confetti");
+    const ctx = canvas.getContext("2d");
+    let pieces = [];
+    let raf = null;
 
+    function resize() {
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.floor(window.innerWidth * dpr);
+      canvas.height = Math.floor(window.innerHeight * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    window.addEventListener("resize", resize);
+
+    function makePiece() {
+      return {
+        x: Math.random() * window.innerWidth,
+        y: -20 - Math.random() * 200,
+        w: 6 + Math.random() * 8,
+        h: 8 + Math.random() * 12,
+        vx: -1.2 + Math.random() * 2.4,
+        vy: 2.2 + Math.random() * 4.2,
+        r: Math.random() * Math.PI,
+        vr: -0.12 + Math.random() * 0.24,
+        c: `hsl(${Math.floor(Math.random() * 360)}, 90%, 65%)`
+      };
+    }
+
+    function startConfetti() {
+      canvas.style.display = "block";
+      resize();
+      pieces = Array.from({ length: 150 }, makePiece);
+      tick();
+    }
+
+    function stopConfetti() {
+      canvas.style.display = "none";
+      pieces = [];
+      if (raf) cancelAnimationFrame(raf);
+      raf = null;
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    }
+
+    function tick() {
+      raf = requestAnimationFrame(tick);
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+      for (const p of pieces) {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.r += p.vr;
+
+        if (p.y > window.innerHeight + 30) {
+          p.y = -20;
+          p.x = Math.random() * window.innerWidth;
+        }
+        if (p.x < -30) p.x = window.innerWidth + 30;
+        if (p.x > window.innerWidth + 30) p.x = -30;
+
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.r);
+        ctx.fillStyle = p.c;
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        ctx.restore();
+      }
+    }
+
+    /* ===== YES ACTION ===== */
     async function handleYes() {
-      // Try to play music (click-to-play should be allowed)
+      backdrop.style.display = "grid";
+      startConfetti();
+
       try {
         song.currentTime = 0;
-        await song.play();
+        await song.play(); // should work because it's triggered by a click
       } catch (e) {
-        // If blocked, we still show the modal. (Most browsers allow on click.)
-        console.log("Audio play blocked:", e);
+        console.log("Audio play issue:", e);
       }
-
-      backdrop.style.display = "grid";
     }
 
     yesBtn.addEventListener("click", handleYes);
 
-    // "No" turns into "Okay fine yes" and then acts like Yes
-    noBtn.addEventListener("click", () => {
-      if (!noConverted) {
-        noConverted = true;
-        noBtn.textContent = "Okay fine yes 💞";
-        noBtn.style.color = "#121212";
-        noBtn.style.boxShadow = "0 14px 26px rgba(0,0,0,.10)";
-        return;
-      }
-      handleYes();
-    });
-
-    closeBtn.addEventListener("click", () => {
+    function closeModal() {
       backdrop.style.display = "none";
-      // optional: keep song playing, or pause it:
+      stopConfetti();
+      // Optional: pause music when closing
       // song.pause();
+    }
+
+    closeBtn.addEventListener("click", closeModal);
+    backdrop.addEventListener("click", (e) => {
+      if (e.target === backdrop) closeModal();
     });
 
-    backdrop.addEventListener("click", (e) => {
-      if (e.target === backdrop) {
-        backdrop.style.display = "none";
+    /* ===== NO CLICK: YES grows, NO shrinks by 5px each click (NO auto-YES) ===== */
+    let yesSize = 16; // px
+    let noSize = 16;  // px
+    const STEP = 5;
+    const MIN_NO_SIZE = 6;    // allow it to get tiny but still visible
+    const MAX_YES_SIZE = 48;  // cap so layout stays nice
+
+    const basePadY = 12;
+    const basePadX = 18;
+
+    noBtn.addEventListener("click", () => {
+      // Grow YES
+      if (yesSize < MAX_YES_SIZE) {
+        yesSize = Math.min(MAX_YES_SIZE, yesSize + STEP);
+        yesBtn.style.fontSize = yesSize + "px";
+
+        const delta = yesSize - 16;
+        yesBtn.style.padding =
+          (basePadY + delta * 0.35) + "px " +
+          (basePadX + delta * 0.7) + "px";
       }
+
+      // Shrink NO
+      if (noSize > MIN_NO_SIZE) {
+        noSize = Math.max(MIN_NO_SIZE, noSize - STEP);
+        noBtn.style.fontSize = noSize + "px";
+
+        const delta = 16 - noSize;
+        noBtn.style.padding =
+          Math.max(6, basePadY - delta * 0.6) + "px " +
+          Math.max(10, basePadX - delta * 0.8) + "px";
+      }
+
+      // No auto-trigger of YES anymore.
     });
   </script>
 </body>
